@@ -42,3 +42,6 @@
 
 # PHP Storm Settings
 .idea
+
+# Application
+/src/SigninBundle/Resources/keys/client_secret.json

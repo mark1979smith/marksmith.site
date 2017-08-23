@@ -1,0 +1,10 @@
+parameters:
+
+services:
+    signin.google:
+        class: SigninBundle\Model\Auth\Google
+        arguments:
+            $router: "@router"
+#    signin.example:
+#        class: SigninBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

@@ -1,0 +1,8 @@
+signin:
+    resource: "@SigninBundle/Controller/"
+    type:     annotation
+    prefix:   /signin
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
