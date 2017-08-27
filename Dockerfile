@@ -20,7 +20,7 @@ RUN chgrp www-data /var/www -R && chmod 0775 /var/www -R
 RUN chown deployuser /var/www -R 
 
 # Change owner to avoid running as root
-RUN sudo su deployuser
+USER deployuser
 
 # RUN COMPOSER to generate parameters.yml file
 RUN /usr/local/zend/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
