@@ -1,9 +1,9 @@
-FROM php-zendserver:latest
+FROM php:apache
 
 # Set the working directory to /app
 WORKDIR /var/www
 
-ADD . /var/www
+COPY . /var/www
 
 # REMOVE default directory
 RUN rm -rf /var/www/html
@@ -20,13 +20,13 @@ RUN echo "IDxWaXJ0dWFsSG9zdCAqOjgwPg0KDQogICAgICAgICMgVGhlIFNlcnZlck5hbWUgZGlyZW
 RUN chgrp deploygroup /var/www -R
 RUN chown deployuser /var/www -R 
 
-# Change Apache Uset=r from www-data to deployuser
-RUN sed -i 's/zend.httpd_uid=33/zend.httpd_uid=1000/g' /usr/local/zend/etc/conf.d/ZendGlobalDirectives.ini
-RUN sed -i 's/zend.httpd_gid=33/zend.httpd_gid=1000/g' /usr/local/zend/etc/conf.d/ZendGlobalDirectives.ini
-RUN sed -i 's/WEB_USER=www-data/WEB_USER=deployuser/g' /etc/zce.rc
-RUN find /usr/local/zend -user www-data -exec chown deployuser {} \;
-RUN find /usr/local/zend -group www-data -exec chown deploygroup {} \;
-RUN usermod -A deployuser zend
+# Change Apache User from www-data to deployuser
+#RUN sed -i 's/zend.httpd_uid=33/zend.httpd_uid=1000/g' /usr/local/zend/etc/conf.d/ZendGlobalDirectives.ini
+#RUN sed -i 's/zend.httpd_gid=33/zend.httpd_gid=1000/g' /usr/local/zend/etc/conf.d/ZendGlobalDirectives.ini
+#RUN sed -i 's/WEB_USER=www-data/WEB_USER=deployuser/g' /etc/zce.rc
+#RUN find /usr/local/zend -user www-data -exec chown deployuser {} \;
+#RUN find /usr/local/zend -group www-data -exec chown deploygroup {} \;
+#RUN usermod -A deployuser zend
 
 # Change owner to avoid running as root
 USER deployuser
