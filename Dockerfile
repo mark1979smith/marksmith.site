@@ -20,6 +20,11 @@ RUN echo "IDxWaXJ0dWFsSG9zdCAqOjgwPg0KDQogICAgICAgICMgVGhlIFNlcnZlck5hbWUgZGlyZW
 RUN chgrp deploygroup /var/www -R
 RUN chown deployuser /var/www -R 
 
+# Change Apache Uset=r from www-data to deployuser
+sed -i 's/zend.httpd_uid=33/zend.httpd_uid=1000/g' /usr/local/zend/etc/conf.d/ZendGlobalDirectives.ini
+sed -i 's/zend.httpd_gid=33/zend.httpd_gid=1000/g' /usr/local/zend/etc/conf.d/ZendGlobalDirectives.ini
+sed -i 's/WEB_USER=www-data/WEB_USER=deployuser/g' /etc/zce.rc
+
 # Change owner to avoid running as root
 USER deployuser
 
