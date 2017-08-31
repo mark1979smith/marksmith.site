@@ -9,8 +9,13 @@ COPY . /var/www
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install git -y
+    
+# PHP EXTENSIONS
 RUN pecl install redis-3.1.3 && \
     docker-php-ext-enable redis
+
+# APACHE MODULES
+RUN a2enmod rewrite
 
 # REMOVE default directory
 RUN rm -rf /var/www/html
