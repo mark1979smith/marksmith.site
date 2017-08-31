@@ -26,12 +26,8 @@ RUN chgrp deploygroup /var/www -R
 RUN chown deployuser /var/www -R 
 
 # Change Apache User from www-data to deployuser
-#RUN sed -i 's/zend.httpd_uid=33/zend.httpd_uid=1000/g' /usr/local/zend/etc/conf.d/ZendGlobalDirectives.ini
-#RUN sed -i 's/zend.httpd_gid=33/zend.httpd_gid=1000/g' /usr/local/zend/etc/conf.d/ZendGlobalDirectives.ini
-#RUN sed -i 's/WEB_USER=www-data/WEB_USER=deployuser/g' /etc/zce.rc
-#RUN find /usr/local/zend -user www-data -exec chown deployuser {} \;
-#RUN find /usr/local/zend -group www-data -exec chown deploygroup {} \;
-#RUN usermod -A deployuser zend
+RUN sed -i 's/${APACHE_RUN_USER:=www-data}/${APACHE_RUN_USER:=deployuser}/g' /etc/apache2/envvars \
+    && sed -i 's/${APACHE_RUN_GROUP:=www-data}/${APACHE_RUN_GROUP:=deploygroup}/g' /etc/apache2/envvars
 
 # Change owner to avoid running as root
 USER deployuser
