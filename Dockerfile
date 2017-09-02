@@ -2,8 +2,6 @@ FROM php:apache
 
 ENV DEV_MODE false
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
-
 # Set the working directory to /app
 WORKDIR /var/www
 
