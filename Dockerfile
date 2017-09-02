@@ -2,6 +2,8 @@ FROM php:apache
 
 ENV DEV_MODE false
 
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
 # Set the working directory to /app
 WORKDIR /var/www
 
@@ -50,5 +52,3 @@ RUN  mkdir -p ~/.ssh && echo "c3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFDQV
 
 # Switch back to ROOT
 USER root
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
