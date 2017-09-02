@@ -51,3 +51,5 @@ RUN  mkdir -p ~/.ssh && echo "c3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFDQV
 
 # Switch back to ROOT
 USER root
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
