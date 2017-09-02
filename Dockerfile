@@ -1,5 +1,7 @@
 FROM php:apache
 
+ENV DEV_MODE false
+
 # Set the working directory to /app
 WORKDIR /var/www
 
