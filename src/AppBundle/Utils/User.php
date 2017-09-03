@@ -58,7 +58,7 @@ class User
      */
     protected function getGeneratedCacheKey(): string
     {
-        return $this->generatedCacheKey;
+        return $this->generatedCacheKey ?: '';
     }
 
     /**
