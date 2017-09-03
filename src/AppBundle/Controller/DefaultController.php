@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Utils\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SigninBundle\Resources\GenerateCacheKey;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,18 +18,14 @@ class DefaultController extends Controller
     {
         /** @var \Symfony\Component\Cache\Adapter\RedisAdapter $cache */
         $cache = $this->get('app.redis')->get();
-        $cacheToken = null;
-        if ($request->cookies->has('uuid')) {
-            $redisCacheKey = $this->createCacheKey($request, $request->cookies->get('uuid'));
-        }
 
+        $user = new User();
         $data = [];
         $data['base_dir'] = realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR;
-        $data['logged_in'] = (int) (isset($redisCacheKey) && $cache->hasItem($redisCacheKey));
+        $data['logged_in'] = (int) $user->isLoggedIn($request, $cache);
         $data['logged_in_data'] = false;
         if ($data['logged_in']) {
-            $data['logged_in_data'] = $cache->getItem($redisCacheKey)->get();
-            $data['redis-cache-key'] = $redisCacheKey;
+            $data['logged_in_data'] = $user->getLoggedInData();
         }
 
         // replace this example code with whatever you need
