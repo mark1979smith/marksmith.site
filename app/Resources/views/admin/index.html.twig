@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="row text-center">
-        <p>Sign in is required to access this part of the site.</p>
-        <p>Please login with your @{{ core_domain }} email address.</p>
-        <form  method="post" action="{{ path('admin_login') }}">
-            <input type="image" src="{{ asset('images/google-social-signin.png') }}" width="202"/>
-        </form>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>LOGGED IN</p>
+            </div>
+        </div>
     </div>
+
 {% endblock %}

@@ -7,6 +7,7 @@
  */
 namespace AppBundle\Controller;
 
+use AppBundle\Utils\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -24,9 +25,15 @@ class AdminController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $googleClient = $this->get('signin.google');
+        $user = new User();
+        $cache = $this->get('app.redis')->get();
+        if (!$user->isLoggedIn($request, $cache)) {
+            return $this->render('admin/login.html.twig', [
+                'core_domain' => $request->getHttpHost()
+            ]);
+        }
+
         return $this->render('admin/index.html.twig', [
-            'core_domain' => $request->getHttpHost()
         ]);
     }
 
