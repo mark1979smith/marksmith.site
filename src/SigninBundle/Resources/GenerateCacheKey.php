@@ -11,10 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 trait GenerateCacheKey
 {
-    public function createCacheKey(Request $request, $sessId)
+    public static function createCacheKey(Request $request, $sessId)
     {
-
-        $httpData = array_filter($_SERVER, function ($v, $k) {
+        $httpData = array_filter($request->server->all(), function ($v, $k) {
             unset($v);
 
             return preg_match('/^HTTP_/i', $k)
