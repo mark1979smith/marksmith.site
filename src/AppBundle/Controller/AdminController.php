@@ -25,8 +25,10 @@ class AdminController extends Controller
      */
     public function indexAction(Request $request)
     {
+//        var_dump($request->cookies); exit;
         $user = new User();
-        $cache = $this->get('app.redis')->get();
+        /** @var \AppBundle\Utils\Api\Redis $cache */
+        $cache = $this->get('app.api.redis');
         if (!$user->isLoggedIn($request, $cache)) {
             return $this->render('admin/login.html.twig', [
                 'core_domain' => $request->getHttpHost()

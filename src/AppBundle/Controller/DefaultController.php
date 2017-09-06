@@ -16,8 +16,8 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        /** @var \Symfony\Component\Cache\Adapter\RedisAdapter $cache */
-        $cache = $this->get('app.redis')->get();
+        /** @var \AppBundle\Utils\Api\Redis $cache */
+        $cache = $this->get('app.api.redis');
 
         $user = new User();
         $data = [];

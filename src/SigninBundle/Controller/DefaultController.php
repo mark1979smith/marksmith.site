@@ -1,5 +1,4 @@
 <?php
-
 namespace SigninBundle\Controller;
 
 use SigninBundle\Resources\GenerateCacheKey;
@@ -60,16 +59,14 @@ class DefaultController extends Controller
                                 $siteAdministrator = true;
                             }
 
-                            /** @var \Symfony\Component\Cache\Adapter\RedisAdapter $cache */
-                            $cache = $this->get('app.redis')->get();
+                            /** @var \AppBundle\Utils\Api\Redis $api */
+                            $api = $this->get('app.api.redis');
 
                             $sessId = uniqid('sess', true);
                             $redisCacheKey = $this->createCacheKey($request, $sessId);
 
-                            if (!$cache->hasItem($redisCacheKey)) {
-                                $item = $cache->getItem($redisCacheKey);
-                                $item->set((array) $googleUserData->toSimpleObject() + ['admin' => $siteAdministrator]);
-                                $cache->save($item);
+                            if (!$api->read($redisCacheKey)) {
+                                $api->create((array) $googleUserData->toSimpleObject() + ['admin' => $siteAdministrator]);
                             }
                         }
                     }

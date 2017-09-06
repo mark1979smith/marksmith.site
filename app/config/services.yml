@@ -1,8 +1,6 @@
 # Learn more about services, parameters and containers at
 # https://symfony.com/doc/current/service_container.html
 parameters:
-    redis_host: redis
-    redis_port: 6379
     #parameter_name: value
 
 services:
@@ -31,12 +29,14 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
-    app.redis:
-        class: AppBundle\Utils\RedisCache
+    app.api.redis:
+        class: AppBundle\Utils\Api\Redis
         public: true
-        arguments:
-            $redisHost: '%redis_host%'
-            $redisPort: '%redis_port%'
+
+    AppBundle\Utils\Api\Redis: ~
+
+    AppBundle\Utils\Api\ApiInterface: '@AppBundle\Utils\Api\Redis'
+
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:

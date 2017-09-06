@@ -11,17 +11,13 @@ COPY . /var/www
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install git -y
-    
-# PHP EXTENSIONS
-RUN pecl install redis-3.1.3 && \
-    docker-php-ext-enable redis
 
 # APACHE MODULES
 RUN a2enmod rewrite
 
 # REMOVE default directory
 RUN rm -rf /var/www/html && \
-    ln -s /var/www/web /var/www/html 
+    ln -s /var/www/web /var/www/html
 
 # Create Deployment User and group
 # Change Apache User from www-data to deployuser
@@ -31,9 +27,6 @@ RUN groupadd deploygroup && \
     chown deployuser /var/www -R && \
     sed -i 's/${APACHE_RUN_USER:=www-data}/${APACHE_RUN_USER:=deployuser}/g' /etc/apache2/envvars && \
     sed -i 's/${APACHE_RUN_GROUP:=www-data}/${APACHE_RUN_GROUP:=deploygroup}/g' /etc/apache2/envvars
- 
-# VHOSTS SETUP - to set AllowOverride
-#RUN echo "IDxWaXJ0dWFsSG9zdCAqOjgwPg0KDQogICAgICAgICMgVGhlIFNlcnZlck5hbWUgZGlyZWN0aXZlIHNldHMgdGhlIHJlcXVlc3Qgc2NoZW1lLCBob3N0bmFtZSBhbmQgcG9ydCB0aGF0DQogICAgICAgICMgdGhlIHNlcnZlciB1c2VzIHRvIGlkZW50aWZ5IGl0c2VsZi4gVGhpcyBpcyB1c2VkIHdoZW4gY3JlYXRpbmcNCiAgICAgICAgIyByZWRpcmVjdGlvbiBVUkxzLiBJbiB0aGUgY29udGV4dCBvZiB2aXJ0dWFsIGhvc3RzLCB0aGUgU2VydmVyTmFtZQ0KICAgICAgICAjIHNwZWNpZmllcyB3aGF0IGhvc3RuYW1lIG11c3QgYXBwZWFyIGluIHRoZSByZXF1ZXN0J3MgSG9zdDogaGVhZGVyIHRvDQogICAgICAgICMgbWF0Y2ggdGhpcyB2aXJ0dWFsIGhvc3QuIEZvciB0aGUgZGVmYXVsdCB2aXJ0dWFsIGhvc3QgKHRoaXMgZmlsZSkgdGhpcw0KICAgICAgICAjIHZhbHVlIGlzIG5vdCBkZWNpc2l2ZSBhcyBpdCBpcyB1c2VkIGFzIGEgbGFzdCByZXNvcnQgaG9zdCByZWdhcmRsZXNzLg0KICAgICAgICAjIEhvd2V2ZXIsIHlvdSBtdXN0IHNldCBpdCBmb3IgYW55IGZ1cnRoZXIgdmlydHVhbCBob3N0IGV4cGxpY2l0bHkuDQoNCiAgICAgICAgU2VydmVyTmFtZSBtZS5tYXJrc21pdGguc2l0ZQ0KDQoNClNlcnZlckFkbWluIHdlYm1hc3RlckBsb2NhbGhvc3QNCiBEb2N1bWVudFJvb3QgL3Zhci93d3cvaHRtbA0KDQogRXJyb3JMb2cgJHtBUEFDSEVfTE9HX0RJUn0vZXJyb3IubG9nDQogQ3VzdG9tTG9nICR7QVBBQ0hFX0xPR19ESVJ9L2FjY2Vzcy5sb2cgY29tYmluZWQNCjxEaXJlY3RvcnkgL3Zhci93d3cvaHRtbD4NCiBPcHRpb25zIEluZGV4ZXMgRm9sbG93U3ltTGlua3MNCiBBbGxvd092ZXJyaWRlIEFsbA0KIFJlcXVpcmUgYWxsIGdyYW50ZWQNCiA8L0RpcmVjdG9yeT4NCjwvVmlydHVhbEhvc3Q+DQo="  | base64 --decode > /usr/local/zend/etc/sites.d/vhost_me.marksmith.site.conf
 
 # Change owner to avoid running as root
 USER deployuser
