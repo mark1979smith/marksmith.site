@@ -35,7 +35,7 @@ class Redis extends Api implements \AppBundle\Utils\Api\ApiInterface
     {
         $this->setData($data);
 
-        parent::doCreate();
+        return parent::doCreate();
     }
 
     public function delete($what)
