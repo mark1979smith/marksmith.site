@@ -12,9 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller
 {
     use GenerateCacheKey;
+
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param string                                    $originator
+     *
      * @Route("/callback/{originator}", name="signin-callback", requirements={"originator": "[g]{1}"})
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function callback(Request $request, $originator)
     {
