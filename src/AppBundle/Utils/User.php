@@ -38,7 +38,7 @@ class User
             $this->setGeneratedCacheKey(self::createCacheKey($request, $request->cookies->get('uuid')));
         }
 
-        return ($this->getGeneratedCacheKey() && $api->read($this->getGeneratedCacheKey()));
+        return ($this->getGeneratedCacheKey() && $api->read($this->getGeneratedCacheKey())['result']);
     }
 
     /**

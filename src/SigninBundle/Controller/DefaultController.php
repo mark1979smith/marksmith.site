@@ -65,7 +65,7 @@ class DefaultController extends Controller
                             $sessId = uniqid('sess', true);
                             $redisCacheKey = $this->createCacheKey($request, $sessId);
 
-                            if (!$api->read($redisCacheKey)) {
+                            if (!$api->read($redisCacheKey)['result']) {
                                 $api->create((array) $googleUserData->toSimpleObject() + ['admin' => $siteAdministrator]);
                             }
                         }
