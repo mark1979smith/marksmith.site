@@ -1,4 +1,5 @@
 <?php
+
 namespace SigninBundle\Controller;
 
 use SigninBundle\Resources\GenerateCacheKey;
@@ -57,13 +58,6 @@ class DefaultController extends Controller
                             /** @var \Google_Service_Oauth2_Userinfoplus $googleUserData */
                             $googleUserData = $google->getLoggedInUser();
 
-                            $siteAdministrator = false;
-                            if (!is_null($googleUserData->getHd())
-                                && preg_match('/' . preg_quote($googleUserData->getHd(), '/') . '$/i', $request->getHttpHost())
-                            ) {
-                                $siteAdministrator = true;
-                            }
-
                             /** @var \AppBundle\Utils\Api\Redis $api */
                             $api = $this->get('app.api.redis');
 
@@ -71,7 +65,10 @@ class DefaultController extends Controller
                             $redisCacheKey = $this->createCacheKey($request, $sessId);
 
                             if (!$api->read($redisCacheKey)['result']) {
-                                $api->create((array) $googleUserData->toSimpleObject() + ['admin' => $siteAdministrator]);
+                                $api->create(
+                                    (array)$googleUserData->toSimpleObject() +
+                                    ['admin' => $google->isSiteAdministrator($googleUserData)]
+                                );
                             }
                         }
                     }

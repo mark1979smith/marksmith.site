@@ -1,6 +1,8 @@
 # Learn more about services, parameters and containers at
 # https://symfony.com/doc/current/service_container.html
 parameters:
+    signin.google.admin_auth_method: 'domain'
+    signin.google.admin_auth_value: 'marksmith.email'
     #parameter_name: value
 
 services:
