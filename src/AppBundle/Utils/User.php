@@ -27,30 +27,27 @@ class User
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \AppBundle\Utils\Api\Redis                $api
      *
-     * @return bool
+     * @return array
      */
-    public function isLoggedIn(Request $request, Redis $api): bool
+    public function isLoggedIn(Request $request, Redis $api): array
     {
+        // If no cookie - we know we are not logged in
+        if ($request->cookies->has('uuid') === false) {
+            return [];
+        }
+
         $this->setCacheAdapter($api);
 
         $cacheToken = null;
-        if ($request->cookies->has('uuid')) {
+        if ($request->cookies->has('uuid') === true) {
             $this->setGeneratedCacheKey(self::createCacheKey($request, $request->cookies->get('uuid')));
         }
 
-        return ($this->getGeneratedCacheKey() && $api->read($this->getGeneratedCacheKey())['result']);
-    }
-
-    /**
-     * @return array
-     */
-    public function getLoggedInData(): array
-    {
-        if ($this->getGeneratedCacheKey()) {
-            return $this->getCacheAdapter()->read($this->getGeneratedCacheKey());
+        if (strlen($this->getGeneratedCacheKey())) {
+            return $api->read($this->getGeneratedCacheKey());
+        } else {
+            return [];
         }
-
-        return [];
     }
 
     /**

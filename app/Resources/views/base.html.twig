@@ -1,3 +1,9 @@
+{% if app.request.cookies.has('uuid') %}
+{% set logged_in_data = user.isLoggedIn(app.request, redis) %}
+{% set logged_in_status = logged_in_data.result %}
+{% else %}
+{% set logged_in_status = false %}
+{% endif %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -29,9 +35,9 @@
                 <div class="col-xs-12">
                     marksmith.site
                     <div class="pull-right">
-                        {% if user.isLoggedIn(app.request, redis) %}
-                            <img src="{{ user.getLoggedInData().contents.picture }}" height="20" />
-                            {{ user.getLoggedInData().contents.name }}
+                        {% if logged_in_status %}
+                            <img src="{{ logged_in_data.contents.picture }}" height="20" />
+                            {{ logged_in_data.contents.name }}
                         {% endif %}
                     </div>
                 </div>

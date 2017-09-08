@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {%  if logged_in_status %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-12">
@@ -10,5 +11,12 @@
             </div>
         </div>
     </div>
-
+    {%  else %}
+        <div class="row text-center">
+            <p>Sign in is required to access this part of the site.</p>
+            <form  method="post" action="{{ path('admin_login') }}">
+                <input type="image" src="{{ asset('images/google-social-signin.png') }}" width="202"/>
+            </form>
+        </div>
+    {%  endif %}
 {% endblock %}
