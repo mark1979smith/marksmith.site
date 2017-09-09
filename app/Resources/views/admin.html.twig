@@ -1,0 +1,65 @@
+{% if app.request.cookies.has('uuid') %}
+    {% set logged_in_data = user.isLoggedIn(app.request, redis) %}
+    {% set logged_in_status = logged_in_data.result %}
+    {% set is_admin = logged_in_data.contents.admin %}
+{% else %}
+    {% set logged_in_status = false %}
+    {% set is_admin = false %}
+{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <!-- Bootstrap -->
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Application Global -->
+    <link href="{{ asset('css/app-layout.css') }}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row" id="top-bar">
+        <div class="col-xs-12">
+            marksmith.site
+            <div class="pull-right">
+                {% if logged_in_status %}
+                    <img src="{{ logged_in_data.contents.picture }}" height="20" />
+                    {{ logged_in_data.contents.name }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% if logged_in_status and not is_admin%}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 bg-danger">
+                <h5>This area is restricted.</h5>
+            </div>
+        </div>
+    </div>
+{%  else %}
+    {% block body %}{% endblock %}
+{% endif %}
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>
