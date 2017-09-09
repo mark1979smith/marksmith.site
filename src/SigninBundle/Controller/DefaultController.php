@@ -27,7 +27,7 @@ class DefaultController extends Controller
         if ($originator == 'g') {
             // Process Google Signin
             $code = $request->get('code');
-            if ($request->get('code')) {
+            if ($code) {
                 /** @var \SigninBundle\Model\Auth\Google $google */
                 $google = $this->get('signin.google');
 
@@ -37,7 +37,7 @@ class DefaultController extends Controller
                 $token = $client->fetchAccessTokenWithAuthCode($code);
                 $client->setAccessToken($token);
 
-                $tokenData = $client->verifyIdToken();
+                $tokenData = $client->verifyIdToken($token['id_token']);
 
                 // Start Validation
                 // @link https://developers.google.com/identity/sign-in/web/backend-auth
