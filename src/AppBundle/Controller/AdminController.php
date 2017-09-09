@@ -29,21 +29,4 @@ class AdminController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/admin/login", name="admin_login")
-     * @Method({"POST"})
-     */
-    public function loginAction()
-    {
-        /** @var App\Bundle\SigninBundle\Auth\Google $googleClient */
-        $googleClient = $this->get('signin.google');
-
-        /** @var \Google_Client $client */
-        $client = $googleClient->getClient();
-
-        /** @var string $authUrl */
-        $authUrl = $client->createAuthUrl();
-
-        return $this->redirect($authUrl);
-    }
 }

@@ -1,0 +1,12 @@
+<div class="pull-right">
+    {% if logged_in_status %}
+        <img src="{{ logged_in_data.contents.picture }}" height="45" />
+        {{ logged_in_data.contents.name }}
+
+        <a href="{{ path('logout') }}">Logout?</a>
+    {% else  %}
+        <form  method="post" action="{{ path('login') }}">
+            <input type="image" src="{{ asset('images/btn_google_signin_dark_focus_web.png') }}" />
+        </form>
+    {% endif %}
+</div>

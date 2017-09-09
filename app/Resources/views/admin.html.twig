@@ -36,12 +36,7 @@
     <div class="row" id="top-bar">
         <div class="col-xs-12">
             marksmith.site
-            <div class="pull-right">
-                {% if logged_in_status %}
-                    <img src="{{ logged_in_data.contents.picture }}" height="20" />
-                    {{ logged_in_data.contents.name }}
-                {% endif %}
-            </div>
+            {% include '_partials/logged_in.html.twig' %}
         </div>
     </div>
 </div>
