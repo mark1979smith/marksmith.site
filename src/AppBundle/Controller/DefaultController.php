@@ -43,7 +43,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/Logout", name="logout")
+     * @Route("/logout", name="logout")
      * @Method({"GET"})
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
