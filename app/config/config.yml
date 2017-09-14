@@ -41,6 +41,7 @@ twig:
     globals:
         redis: '@AppBundle\Utils\Api\Redis'
         user: '@AppBundle\Utils\User'
+        logger: '@logger'
 
 # Doctrine Configuration
 doctrine:
@@ -71,3 +72,10 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+monolog:
+    handlers:
+        main:
+            type: stream
+            path: '%kernel.logs_dir%/%kernel.environment%.log'
+            level: debug
