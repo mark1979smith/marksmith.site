@@ -5,6 +5,7 @@
  * Date: 23/03/2017
  * Time: 12:34
  */
+
 namespace AppBundle\Controller;
 
 use AppBundle\Utils\User;
@@ -31,9 +32,12 @@ class AdminController extends Controller
         $user = new User();
         $userData = $user->isLoggedIn($request, $api, $logger);
 
-        if ($userData['result'] && $userData['contents']->admin === true) {
+        if (!empty($userData) && $userData['result'] && $userData['contents']->admin === true) {
             return $this->render('admin/index.html.twig', [
-            ]);
+                'logged_in_data' => $userData,
+                'logged_in_status' => $userData['result'],
+                'is_admin' => $userData['contents']->admin
+             ]);
         } else {
             return $this->redirectToRoute('homepage');
         }

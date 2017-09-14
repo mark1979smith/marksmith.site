@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Utils\User;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SigninBundle\Resources\GenerateCacheKey;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,9 +17,22 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, LoggerInterface $logger)
     {
         $data = [];
+        $data['logged_in_status']  = false;
+
+        /** @var \AppBundle\Utils\Api\Redis $api */
+        $api = $this->get('app.api.redis');
+
+        $user = new User();
+        $userData = $user->isLoggedIn($request, $api, $logger);
+
+        if (!empty($userData) && $userData['result']) {
+            $data['logged_in_data'] = $userData;
+            $data['logged_in_status'] = $userData['result'];
+            $data['is_admin'] = $userData['contents']->admin;
+        }
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', $data);
@@ -30,7 +44,7 @@ class DefaultController extends Controller
      */
     public function loginAction()
     {
-        /** @var App\Bundle\SigninBundle\Auth\Google $googleClient */
+        /** @var \SigninBundle\Model\Auth\Google $googleClient */
         $googleClient = $this->get('signin.google');
 
         /** @var \Google_Client $client */
