@@ -1,8 +1,8 @@
 {% if app.request.cookies.has('uuid') %}
-{% set logged_in_data = user.isLoggedIn(app.request, redis) %}
-{% set logged_in_status = logged_in_data.result %}
+    {% set logged_in_data = user.isLoggedIn(app.request, redis, logger) %}
+    {% set logged_in_status = logged_in_data.result %}
 {% else %}
-{% set logged_in_status = false %}
+    {% set logged_in_status = false %}
 {% endif %}
 <!DOCTYPE html>
 <html lang="en">

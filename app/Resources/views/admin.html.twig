@@ -1,7 +1,12 @@
 {% if app.request.cookies.has('uuid') %}
-    {% set logged_in_data = user.isLoggedIn(app.request, redis) %}
-    {% set logged_in_status = logged_in_data.result %}
-    {% set is_admin = logged_in_data.contents.admin %}
+    {% set logged_in_data = user.isLoggedIn(app.request, redis, logger) %}
+    {% if logged_in_data.result %}
+        {% set logged_in_status = logged_in_data.result %}
+        {% set is_admin = logged_in_data.contents.admin %}
+    {% else %}
+        {% set logged_in_status = false %}
+        {% set is_admin = false %}
+    {% endif %}
 {% else %}
     {% set logged_in_status = false %}
     {% set is_admin = false %}
@@ -9,13 +14,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="UTF-8"/>
     <title>{% block title %}Welcome!{% endblock %}</title>
     {% block stylesheets %}
 
     {% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     <!-- Bootstrap -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Application Global -->
@@ -40,7 +45,7 @@
         </div>
     </div>
 </div>
-{% if logged_in_status and not is_admin%}
+{% if logged_in_status and not is_admin %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-12 bg-danger">
@@ -48,7 +53,7 @@
             </div>
         </div>
     </div>
-{%  else %}
+{% else %}
     {% block body %}{% endblock %}
 {% endif %}
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
