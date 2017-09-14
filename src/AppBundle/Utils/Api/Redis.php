@@ -14,6 +14,8 @@ class Redis extends Api implements \AppBundle\Utils\Api\ApiInterface
 {
     protected $storageClass = 'redis';
 
+    protected $logger;
+
     public function __construct()
     {
         $this->setStorageClass($this->storageClass);

@@ -10,6 +10,7 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Utils\Api\Redis;
+use Psr\Log\LoggerInterface;
 use SigninBundle\Resources\GenerateCacheKey;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -29,10 +30,11 @@ class User
      *
      * @return array
      */
-    public function isLoggedIn(Request $request, Redis $api): array
+    public function isLoggedIn(Request $request, Redis $api, LoggerInterface $logger): array
     {
         // If no cookie - we know we are not logged in
         if ($request->cookies->has('uuid') === false) {
+            $logger->debug('Cookie UUID not set');
             return [];
         }
 
@@ -40,7 +42,8 @@ class User
 
         $cacheToken = null;
         if ($request->cookies->has('uuid') === true) {
-            $this->setGeneratedCacheKey(self::createCacheKey($request, $request->cookies->get('uuid')));
+            $logger->debug('Cookie UUID is set');
+            $this->setGeneratedCacheKey(self::createCacheKey($request, $request->cookies->get('uuid'), $logger));
         }
 
         if (strlen($this->getGeneratedCacheKey())) {

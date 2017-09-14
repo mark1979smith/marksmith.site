@@ -2,6 +2,7 @@
 
 namespace SigninBundle\Controller;
 
+use Psr\Log\LoggerInterface;
 use SigninBundle\Resources\GenerateCacheKey;
 use AppBundle\Utils\RedisCache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,7 +23,7 @@ class DefaultController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function callback(Request $request, $originator)
+    public function callbackAction(Request $request, $originator)
     {
         if ($originator == 'g') {
             // Process Google Signin
@@ -62,7 +63,11 @@ class DefaultController extends Controller
                             $api = $this->get('app.api.redis');
 
                             $sessId = uniqid('sess', true);
-                            $redisCacheKey = $this->createCacheKey($request, $sessId);
+
+                            /** @var LoggerInterface $logger */
+                            $logger = $this->get('logger');
+
+                            $redisCacheKey = $this->createCacheKey($request, $sessId, $logger);
 
                             if (!$api->read($redisCacheKey)['result']) {
                                 $api->create(

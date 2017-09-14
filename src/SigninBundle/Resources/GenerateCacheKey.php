@@ -7,12 +7,14 @@
  */
 namespace SigninBundle\Resources;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 trait GenerateCacheKey
 {
-    public static function createCacheKey(Request $request, $sessId)
+    public static function createCacheKey(Request $request, $sessId, LoggerInterface $logger)
     {
+        $logger->debug('-- Creating Cache Key --');
         $httpData = array_filter($request->server->all(), function ($v, $k) {
             unset($v);
 
@@ -22,6 +24,12 @@ trait GenerateCacheKey
                 ]);
         }, ARRAY_FILTER_USE_BOTH);
         $redisCacheKey = sha1($sessId . sha1(serialize($httpData)));
+
+        $logger->debug(serialize($sessId));
+        $logger->debug(serialize($httpData));
+        $logger->debug(serialize($redisCacheKey));
+
+        $logger->debug('-- End Creating Cache Key --');
 
         return $redisCacheKey;
     }
