@@ -20,10 +20,10 @@ trait GenerateCacheKey
 
             return preg_match('/^HTTP_/i', $k)
                 && !in_array($k, [
-                    'HTTP_COOKIE', 'HTTP_PRAGMA', 'HTTP_CACHE_CONTROL'
+                    'HTTP_COOKIE', 'HTTP_PRAGMA', 'HTTP_CACHE_CONTROL', 'HTTP_REFERER'
                 ]);
         }, ARRAY_FILTER_USE_BOTH);
-        $redisCacheKey = sha1($sessId . sha1(serialize($httpData)));
+        $redisCacheKey = sha1($sessId . sha1(serialize(ksort($httpData))));
 
         $logger->debug(serialize($sessId));
         $logger->debug(serialize($httpData));
