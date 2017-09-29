@@ -34,10 +34,11 @@ services:
     app.api.redis:
         class: AppBundle\Utils\Api\Redis
         public: true
+    app.api.mysql:
+        class: AppBundle\Utils\Api\Mysql
+        public: true
 
-    AppBundle\Utils\Api\Redis: ~
 
-    AppBundle\Utils\Api\ApiInterface: '@AppBundle\Utils\Api\Redis'
 
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
