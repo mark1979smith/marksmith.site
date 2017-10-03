@@ -28,7 +28,7 @@ class Redis extends Api implements \AppBundle\Utils\Api\ApiInterface
         return parent::doRead();
     }
 
-    public function update($data, $what)
+    public function update($data)
     {
 
     }
