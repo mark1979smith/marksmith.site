@@ -20,8 +20,13 @@ class Api
     {
         $ch = curl_init();
 
+        $options = ['storage' => $this->getStorageClass(), 'what' => $this->getWhat()];
+        if ($this->getData()) {
+            $options['data'] = base64_encode(serialize($this->getData()));
+        }
+
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($ch, CURLOPT_URL, 'http://api/?'. http_build_query(['storage' => $this->getStorageClass(), 'what' => $this->getWhat()]));
+        curl_setopt($ch, CURLOPT_URL, 'http://api/?'. http_build_query($options));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
         $response = curl_exec($ch);
@@ -34,7 +39,19 @@ class Api
 
     public function doUpdate()
     {
+        $ch = curl_init();
 
+        curl_setopt($ch, CURLOPT_URL, 'http://api');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['storage' => $this->getStorageClass(), 'data' => base64_encode(serialize($this->getData()))]));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $objResponse = \GuzzleHttp\json_decode($response);
+
+        return (array) $objResponse;
     }
 
     public function doCreate()

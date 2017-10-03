@@ -18,12 +18,11 @@ interface ApiInterface
     public function read($what);
 
     /**
-     * @param array|object $data
-     * @param string $what
+     * @param object $data
      *
      * @return mixed
      */
-    public function update($data, $what);
+    public function update($data);
 
     /**
      * @param array|object $data
