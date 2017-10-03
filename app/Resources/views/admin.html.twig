@@ -32,6 +32,15 @@
         </div>
     </div>
 </div>
+{# ...or you can read and display every flash message available #}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }}">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
 {% block body %}{% endblock %}
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>

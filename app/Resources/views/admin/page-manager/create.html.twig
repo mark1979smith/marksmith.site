@@ -6,10 +6,13 @@
             <div class="col-xs-12">
                 <h1>Andministration Area</h1>
 
-                <h2>Please select an action</h2>
-                <ul>
-                    <li><a href="{{ path('page-manager') }}">Page Manager</a></li>
-                </ul>
+                <h2>Page Manager</h2>
+
+                {{ form_start(form) }}
+
+                {{ form_widget(form) }}
+
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
