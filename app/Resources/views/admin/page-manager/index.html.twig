@@ -1,34 +1,26 @@
-{% extends 'admin.html.twig' %}
+{% extends 'admin/page-manager/layout.html.twig' %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-12">
-                <h1>Andministration Area</h1>
+    <h3 class="pull-right"><a href="{{ path('page-manager-create') }}">Create New Page</a></h3>
 
-                <h2>Page Manager</h2>
-
-                <h3 class="pull-right"><a href="{{ path('page-manager-create') }}">Create New Page</a></h3>
-
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {%  for obj in results %}
-                    <tr>
-                        <td>{{ obj.getId() }}</td>
-                        <td>{{ obj.getArticleName() }}</td>
-                        <td><a href="{{ path('page-manager-edit', { 'id': obj.getId()}) }}"><button class="btn btn-info">Edit</button></a></td>
-                    </tr>
-                    {%  endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for obj in results %}
+            <tr>
+                <td>{{ obj.getId() }}</td>
+                <td>{{ obj.getArticleName() }}</td>
+                <td><a href="{{ path('page-manager-edit', { 'id': obj.getId()}) }}">
+                        <button class="btn btn-info">Edit</button>
+                    </a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
