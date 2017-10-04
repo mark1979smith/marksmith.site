@@ -162,6 +162,7 @@ class AdminController extends Controller
         $article->setId($id);
         $status = $mysqlApi->read(Article::class, $article);
         $article = unserialize(base64_decode($status['results']))[0];
+        $existingArticle = clone $article;
 
         $form = $this->createFormBuilder($article)
             ->add('articleName', TextType::class)
@@ -176,14 +177,12 @@ class AdminController extends Controller
             /** @var \AppBundle\Entity\Article $article */
             $article = $form->getData();
 
-            $articleHistory = new ArticleHistory($article);
-            $articleHistory->setArticleId($id);
-
-            $article->setId($id);
             $status = $mysqlApi->update($article);
 
             if ($status) {
                 // Create Revision
+                $articleHistory = new ArticleHistory($existingArticle);
+                $articleHistory->setArticleId($id);
                 $mysqlApi->create($articleHistory);
             }
             $this->addFlash(
