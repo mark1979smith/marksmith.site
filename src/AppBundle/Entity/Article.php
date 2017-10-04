@@ -129,7 +129,7 @@ class Article
     /**
      * @return string
      */
-    public function getArticleCreated(): string
+    public function getArticleCreated(): \DateTime
     {
         return $this->articleCreated;
     }
