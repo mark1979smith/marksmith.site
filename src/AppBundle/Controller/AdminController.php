@@ -11,6 +11,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\ArticleHistory;
 use AppBundle\Utils\User;
+use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -109,7 +110,7 @@ class AdminController extends Controller
         $form = $this->createFormBuilder($article)
             ->add('articleName', TextType::class)
             ->add('articleSlug', TextType::class)
-            ->add('articleBody', TextareaType::class)
+            ->add('articleBody', CKEditorType::class)
             ->add('save', SubmitType::class, ['label' => 'Create Article'])
             ->getForm();
 
@@ -167,7 +168,7 @@ class AdminController extends Controller
         $form = $this->createFormBuilder($article)
             ->add('articleName', TextType::class)
             ->add('articleSlug', TextType::class)
-            ->add('articleBody', TextareaType::class)
+            ->add('articleBody', CKEditorType::class)
             ->add('save', SubmitType::class, ['label' => 'Create Article'])
             ->getForm();
 

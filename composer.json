@@ -24,6 +24,7 @@
         "php": ">=5.5.9",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
+        "egeloen/ckeditor-bundle": "6.0.1",
         "firebase/php-jwt": "v3.0.0",
         "google/apiclient": "^2.0",
         "incenteev/composer-parameter-handler": "^2.0",
