@@ -29,9 +29,9 @@ class Article
      *
      * @Assert\Length(
      *     min = 2,
-     *     max = 30,
+     *     max = 40,
      *     minMessage = "The SLUG must be at least 2 characters",
-     *     maxMessage = "The SLUG must be at most 30 characters"
+     *     maxMessage = "The SLUG must be at most 40 characters"
      * )
      */
     private $articleSlug = '';
