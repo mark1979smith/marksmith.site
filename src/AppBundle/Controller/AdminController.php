@@ -169,7 +169,7 @@ class AdminController extends Controller
             ->add('articleName', TextType::class)
             ->add('articleSlug', TextType::class)
             ->add('articleBody', CKEditorType::class)
-            ->add('save', SubmitType::class, ['label' => 'Create Article'])
+            ->add('save', SubmitType::class, ['label' => 'Save Article'])
             ->getForm();
 
         $form->handleRequest($request);
