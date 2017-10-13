@@ -8,11 +8,15 @@
 
 namespace SigninBundle\Model\Auth;
 
-
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
 use Google_Client;
 
+/**
+ * Class Google
+ *
+ * @package SigninBundle\Model\Auth
+ */
 class Google implements AuthInterface
 {
     /**
@@ -29,8 +33,20 @@ class Google implements AuthInterface
     /** @var  string */
     protected $clientSecretFileName;
 
-    public function __construct(Router $router, string $adminAuthMethod = '', string $adminAuthValue = '', string $clientSecretFileName = '')
-    {
+    /**
+     * Google constructor.
+     *
+     * @param \Symfony\Component\Routing\Router $router
+     * @param string                            $adminAuthMethod
+     * @param string                            $adminAuthValue
+     * @param string                            $clientSecretFileName
+     */
+    public function __construct(
+        Router $router,
+        string $adminAuthMethod = '',
+        string $adminAuthValue = '',
+        string $clientSecretFileName = ''
+    ) {
 
         $this->setClientSecretFileName(basename($clientSecretFileName))
             ->setAdminAuthMethod($adminAuthMethod)
@@ -47,8 +63,19 @@ class Google implements AuthInterface
         $this->setClient($client);
     }
 
-    public function setClientSecret($file)
+    /**
+     * The file
+     *
+     * @param string $file
+     *
+     * @throws \Exception
+     */
+    public function setClientSecret(string $file = '')
     {
+        if (!strlen($file)) {
+            throw new \Exception('Client Secret File has not been provided');
+        }
+
         $client = $this->getClient();
         $client->setAuthConfig($file);
 
@@ -61,7 +88,7 @@ class Google implements AuthInterface
      *
      * @return bool
      */
-    public function isSiteAdministrator(\Google_Service_Oauth2_Userinfoplus $googleUserData) :bool
+    public function isSiteAdministrator(\Google_Service_Oauth2_Userinfoplus $googleUserData): bool
     {
         if ($this->getAdminAuthMethod() == 'domain') {
             return ($googleUserData->getHd() === $this->getAdminAuthValue());
@@ -79,7 +106,7 @@ class Google implements AuthInterface
      *
      * @return \Google_Service_Oauth2_Userinfoplus
      */
-    public function getLoggedInUser()
+    public function getLoggedInUser(): \Google_Service_Oauth2_Userinfoplus
     {
         $googleOathV2 = new \Google_Service_Oauth2($this->getClient());
 
@@ -91,7 +118,7 @@ class Google implements AuthInterface
      *
      * @return Google_Client
      */
-    public function getClient()
+    public function getClient(): \Google_Client
     {
         return $this->client;
     }
@@ -116,13 +143,13 @@ class Google implements AuthInterface
      *
      * @return string
      */
-    public function getLoginUrl()
+    public function getLoginUrl(): string
     {
         return $this->getClient()->createAuthUrl();
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAdminAuthMethod()
     {
@@ -130,11 +157,11 @@ class Google implements AuthInterface
     }
 
     /**
-     * @param mixed $adminAuthMethod
+     * @param string $adminAuthMethod
      *
      * @return Google
      */
-    public function setAdminAuthMethod($adminAuthMethod)
+    public function setAdminAuthMethod($adminAuthMethod): Google
     {
         $this->adminAuthMethod = $adminAuthMethod;
 
@@ -142,19 +169,19 @@ class Google implements AuthInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAdminAuthValue()
+    public function getAdminAuthValue(): string
     {
         return $this->adminAuthValue;
     }
 
     /**
-     * @param mixed $adminAuthValue
+     * @param string $adminAuthValue
      *
      * @return Google
      */
-    public function setAdminAuthValue($adminAuthValue)
+    public function setAdminAuthValue($adminAuthValue): Google
     {
         $this->adminAuthValue = $adminAuthValue;
 
