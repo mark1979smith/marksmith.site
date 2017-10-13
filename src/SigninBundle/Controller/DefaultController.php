@@ -39,52 +39,10 @@ class DefaultController extends Controller
                     )
                 );
 
-                /** @var \Google_Client $client */
-                $client = $google->getClient();
+                $google->setApi($this->get('app.api.redis'))
+                    ->validateRequest($request, $code, $this->get('logger'));
 
-                $token = $client->fetchAccessTokenWithAuthCode($code);
-                $client->setAccessToken($token);
-
-                $tokenData = $client->verifyIdToken($token['id_token']);
-
-                // Start Validation
-                // @link https://developers.google.com/identity/sign-in/web/backend-auth
-                if ($tokenData['aud'] !== $client->getClientId()) {
-                    throw new \Exception($tokenData['aud'] . ' does not match ', $client->getClientId());
-                } else {
-                    if (!in_array($tokenData['iss'], [
-                        'accounts.google.com',
-                        'https://accounts.google.com',
-                    ])
-                    ) {
-                        throw new \Exception($tokenData['iss'] . ' is not one of accounts.google.com, https://accounts.google.com');
-                    } else {
-                        if (date('U') > $tokenData['exp']) {
-                            throw new \Exception('current date ' . date('U') . ' is greater than expiry: ' . $tokenData['exp']);
-                        } else {
-                            // Valid Request - Save to session and redirect back to this page
-                            /** @var \Google_Service_Oauth2_Userinfoplus $googleUserData */
-                            $googleUserData = $google->getLoggedInUser();
-
-                            /** @var \AppBundle\Utils\Api\Redis $api */
-                            $api = $this->get('app.api.redis');
-
-                            $sessId = uniqid('sess', true);
-
-                            /** @var LoggerInterface $logger */
-                            $logger = $this->get('logger');
-
-                            $redisCacheKey = $this->createCacheKey($request, $sessId, $logger);
-
-                            if (!$api->read($redisCacheKey)['result']) {
-                                $api->create(
-                                    (array)$googleUserData->toSimpleObject() +
-                                    ['admin' => $google->isSiteAdministrator($googleUserData)]
-                                );
-                            }
-                        }
-                    }
-                }
+                $sessId = $google->getSessId();
             }
         }
 

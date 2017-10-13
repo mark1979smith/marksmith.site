@@ -8,6 +8,9 @@
 
 namespace SigninBundle\Model\Auth;
 
+use Psr\Log\LoggerInterface;
+use SigninBundle\Resources\GenerateCacheKey;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
 use Google_Client;
@@ -19,6 +22,8 @@ use Google_Client;
  */
 class Google implements AuthInterface
 {
+    use GenerateCacheKey;
+
     /**
      * @var Google_Client
      */
@@ -32,6 +37,12 @@ class Google implements AuthInterface
 
     /** @var  string */
     protected $clientSecretFileName;
+
+    /** @var mixed $api */
+    protected $api;
+
+    /** @var  string */
+    protected $sessId;
 
     /**
      * Google constructor.
@@ -61,6 +72,75 @@ class Google implements AuthInterface
         );
 
         $this->setClient($client);
+    }
+
+    /**
+     * @param mixed $api
+     *
+     * @return \SigninBundle\Model\Auth\Google
+     */
+    public function setApi($api): Google
+    {
+        $this->api = $api;
+
+        return $this;
+    }
+
+    public function getApi()
+    {
+        return $this->api;
+    }
+
+    public function validateRequest(
+        Request $request,
+        string $code,
+        LoggerInterface $logger
+    ) {
+
+        if (!$this->getApi()) {
+            throw new \Exception('API not set');
+        }
+
+        /** @var \Google_Client $client */
+        $client = $this->getClient();
+
+        $token = $client->fetchAccessTokenWithAuthCode($code);
+        $client->setAccessToken($token);
+
+        $tokenData = $client->verifyIdToken($token['id_token']);
+
+        // Start Validation
+        // @link https://developers.google.com/identity/sign-in/web/backend-auth
+        if ($tokenData['aud'] !== $client->getClientId()) {
+            throw new \Exception($tokenData['aud'] . ' does not match ', $client->getClientId());
+        } else {
+            if (!in_array($tokenData['iss'], [
+                'accounts.google.com',
+                'https://accounts.google.com',
+            ])
+            ) {
+                throw new \Exception($tokenData['iss'] . ' is not one of accounts.google.com, https://accounts.google.com');
+            } else {
+                if (date('U') > $tokenData['exp']) {
+                    throw new \Exception('current date ' . date('U') . ' is greater than expiry: ' . $tokenData['exp']);
+                } else {
+                    // Valid Request - Save to session and redirect back to this page
+                    /** @var \Google_Service_Oauth2_Userinfoplus $googleUserData */
+                    $googleUserData = $this->getLoggedInUser();
+
+                    $this->sessId = uniqid('sess', true);
+
+                    $redisCacheKey = $this->createCacheKey($request, $this->sessId, $logger);
+
+                    if (!$this->getApi()->read($redisCacheKey)['result']) {
+                        $this->getApi()->create(
+                            (array)$googleUserData->toSimpleObject() +
+                            ['admin' => $this->isSiteAdministrator($googleUserData)]
+                        );
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -204,6 +284,26 @@ class Google implements AuthInterface
     public function setClientSecretFileName(string $clientSecretFileName): Google
     {
         $this->clientSecretFileName = $clientSecretFileName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSessId(): string
+    {
+        return $this->sessId;
+    }
+
+    /**
+     * @param string $sessId
+     *
+     * @return Google
+     */
+    public function setSessId(string $sessId): Google
+    {
+        $this->sessId = $sessId;
 
         return $this;
     }
