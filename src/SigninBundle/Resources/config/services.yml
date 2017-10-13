@@ -7,6 +7,7 @@ services:
             $router: "@router"
             $adminAuthMethod: "%signin.google.admin_auth_method%" #domain, verified_email, email
             $adminAuthValue: "%signin.google.admin_auth_value%"
+            $clientSecretFileName: "%signin.google.client_secret%"
 #    signin.example:
 #        class: SigninBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]

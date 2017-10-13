@@ -3,6 +3,7 @@
 parameters:
     signin.google.admin_auth_method: 'domain'
     signin.google.admin_auth_value: 'marksmith.email'
+    signin.google.client_secret: 'client_secret.json'
     #parameter_name: value
 
 services:

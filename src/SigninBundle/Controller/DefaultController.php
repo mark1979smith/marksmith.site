@@ -33,6 +33,11 @@ class DefaultController extends Controller
             if ($code) {
                 /** @var \SigninBundle\Model\Auth\Google $google */
                 $google = $this->get('signin.google');
+                $google->setClientSecret(
+                    $this->container->get('kernel')->locateResource(
+                        '@SigninBundle/Resources/keys/'. $google->getClientSecretFileName()
+                    )
+                );
 
                 /** @var \Google_Client $client */
                 $client = $google->getClient();
