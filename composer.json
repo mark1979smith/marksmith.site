@@ -1,5 +1,6 @@
 {
     "name": "mark.smith/me.marksmith.site",
+    "description": "Blog site for me",
     "license": "proprietary",
     "type": "project",
     "autoload": {
