@@ -21,6 +21,8 @@ class DefaultController extends Controller
      *
      * @Route("/callback/{originator}", name="signin-callback", requirements={"originator": "[g]{1}"})
      *
+     * @throws \Exception
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function callbackAction(Request $request, $originator)
@@ -43,17 +45,17 @@ class DefaultController extends Controller
                 // Start Validation
                 // @link https://developers.google.com/identity/sign-in/web/backend-auth
                 if ($tokenData['aud'] !== $client->getClientId()) {
-                    throw new Exception($tokenData['aud'] . ' does not match ', $client->getClientId());
+                    throw new \Exception($tokenData['aud'] . ' does not match ', $client->getClientId());
                 } else {
                     if (!in_array($tokenData['iss'], [
                         'accounts.google.com',
                         'https://accounts.google.com',
                     ])
                     ) {
-                        throw new Exception($tokenData['iss'] . ' is not one of accounts.google.com, https://accounts.google.com');
+                        throw new \Exception($tokenData['iss'] . ' is not one of accounts.google.com, https://accounts.google.com');
                     } else {
                         if (date('U') > $tokenData['exp']) {
-                            throw new Exception('current date ' . date('U') . ' is greater than expiry: ' . $tokenData['exp']);
+                            throw new \Exception('current date ' . date('U') . ' is greater than expiry: ' . $tokenData['exp']);
                         } else {
                             // Valid Request - Save to session and redirect back to this page
                             /** @var \Google_Service_Oauth2_Userinfoplus $googleUserData */
