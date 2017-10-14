@@ -39,12 +39,20 @@ class Article
     /**
      * @var string
      */
-    private $articleBody = '';
+    private $articleTeaser = '';
 
     /**
      * @var string
      */
+    private $articleBody = '';
+
+    /**
+     * @var \DateTime
+     */
     private $articleCreated = '';
+
+    /** @var \DateTime */
+    private $articleUpdated = '';
 
     /**
      * @return int
@@ -142,6 +150,46 @@ class Article
     public function setArticleCreated(\DateTime $articleCreated): Article
     {
         $this->articleCreated = $articleCreated->format('Y-m-d H:i:s');
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getArticleTeaser(): string
+    {
+        return $this->articleTeaser;
+    }
+
+    /**
+     * @param string $articleTeaser
+     *
+     * @return Article
+     */
+    public function setArticleTeaser(string $articleTeaser): Article
+    {
+        $this->articleTeaser = $articleTeaser;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getArticleUpdated(): \DateTime
+    {
+        return $this->articleUpdated;
+    }
+
+    /**
+     * @param \DateTime $articleUpdated
+     *
+     * @return Article
+     */
+    public function setArticleUpdated(\DateTime $articleUpdated): Article
+    {
+        $this->articleUpdated = $articleUpdated;
 
         return $this;
     }

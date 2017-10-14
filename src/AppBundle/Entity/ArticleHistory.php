@@ -5,6 +5,7 @@
  * Date: 02/10/2017
  * Time: 12:18
  */
+
 namespace AppBundle\Entity;
 
 /**
@@ -35,10 +36,15 @@ class ArticleHistory
     /**
      * @var string
      */
-    private $articleBody;
+    private $articleTeaser = '';
 
     /**
      * @var string
+     */
+    private $articleBody;
+
+    /**
+     * @var \DateTime
      */
     private $articleCreated;
 
@@ -54,13 +60,13 @@ class ArticleHistory
                     if ($methodName === 'setId') {
                         $this->setArticleId($value);
                     } else {
-                        $this->{'set' . substr($methodName, 3)}($value);
+                        if (method_exists($this, 'set' . substr($methodName, 3))) {
+                            $this->{'set' . substr($methodName, 3)}($value);
+                        }
                     }
                 }
             }
         }
-
-
     }
 
     /**
@@ -179,6 +185,26 @@ class ArticleHistory
     public function setArticleId(int $articleId): ArticleHistory
     {
         $this->articleId = $articleId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getArticleTeaser(): string
+    {
+        return $this->articleTeaser;
+    }
+
+    /**
+     * @param string $articleTeaser
+     *
+     * @return ArticleHistory
+     */
+    public function setArticleTeaser(string $articleTeaser): ArticleHistory
+    {
+        $this->articleTeaser = $articleTeaser;
 
         return $this;
     }

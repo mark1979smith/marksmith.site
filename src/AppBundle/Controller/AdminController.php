@@ -110,6 +110,7 @@ class AdminController extends Controller
         $form = $this->createFormBuilder($article)
             ->add('articleName', TextType::class)
             ->add('articleSlug', TextType::class)
+            ->add('articleTeaser', CKEditorType::class)
             ->add('articleBody', CKEditorType::class)
             ->add('save', SubmitType::class, ['label' => 'Create Article'])
             ->getForm();
@@ -168,7 +169,12 @@ class AdminController extends Controller
         $form = $this->createFormBuilder($article)
             ->add('articleName', TextType::class)
             ->add('articleSlug', TextType::class)
-            ->add('articleBody', CKEditorType::class)
+            ->add('articleTeaser', CKEditorType::class, [
+                'config' => ['toolbar' => 'simple']
+            ])
+            ->add('articleBody', CKEditorType::class, [
+                'config' => ['toolbar' => 'full']
+            ])
             ->add('save', SubmitType::class, ['label' => 'Save Article'])
             ->getForm();
 
