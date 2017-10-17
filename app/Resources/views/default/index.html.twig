@@ -7,7 +7,7 @@
             <div class="col-xs-12 col-md-8 col-md-offset-2">
                 <div class="bs-callout bs-callout-info">
                     <h4>{{ article.articleName }}</h4>
-                    {{ article.articleTeaser|raw }} <a href="{{ path('view-article', { 'slug': article.articleSlug }) }}" class="btn-success btn-sm">Read more</a>
+                    {{ article.articleTeaser | markdown }} <a href="{{ path('view-article', { 'slug': article.articleSlug }) }}" class="btn-success btn-sm">Read more</a>
                     <p class="pull-right text-muted text-right"><small>Created: <mark>{{ article.articleCreated.format('jS F Y') }}</mark><br />Last Edited: <mark>{{ article.articleUpdated.format('jS F Y') }}</mark></small></p>
                 </div>
             </div>

@@ -9,3 +9,41 @@
 
     {{ form_end(form) }}
 {% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/simplemde.min.css') }}" />
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/simplemde.min.js') }}"></script>
+    <script type="text/javascript">
+        var eleId = 'form_articleTeaser';
+        new SimpleMDE({
+            element: document.getElementById(eleId),
+            autosave: {
+                enabled: true,
+                uniqueId: eleId + '{{ path(app.request.attributes.get('_route'),
+                app.request.attributes.get('_route_params'))|url_encode }}'
+            },
+            forceSync: true,
+            toolbar: [
+                'bold',
+                'italic',
+                'strikethrough',
+                '|',
+                'preview',
+            ]
+        });
+
+        var eleId = 'form_articleBody';
+        new SimpleMDE({
+            element: document.getElementById(eleId),
+            autosave: {
+                enabled: true,
+                uniqueId: eleId + '{{ path(app.request.attributes.get('_route'),
+                app.request.attributes.get('_route_params'))|url_encode }}'
+            },
+            forceSync: true,
+        });
+    </script>
+{% endblock %}

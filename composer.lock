@@ -4,8 +4,65 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9da660b776eddf2d9f06ae98529b5ecc",
+    "content-hash": "700b57e91ffc590193748c7febf3907e",
     "packages": [
+        {
+            "name": "aptoma/twig-markdown",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aptoma/twig-markdown.git",
+                "reference": "624ccf53002e6786a17789a98d08e3d5e662517d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aptoma/twig-markdown/zipball/624ccf53002e6786a17789a98d08e3d5e662517d",
+                "reference": "624ccf53002e6786a17789a98d08e3d5e662517d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0",
+                "twig/twig": "^2.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "erusev/parsedown": "^1.6",
+                "knplabs/github-api": "~1.4",
+                "league/commonmark": "~0.5",
+                "michelf/php-markdown": "~1",
+                "phpunit/phpunit": "~6.0||~5.0"
+            },
+            "suggest": {
+                "knplabs/github-api": "Needed for using GitHub's Markdown engine provided through their API.",
+                "michelf/php-markdown": "Original Markdown engine with MarkdownExtra."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Aptoma": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joris Berthelot",
+                    "email": "joris@berthelot.tel"
+                },
+                {
+                    "name": "Gunnar Lium",
+                    "email": "gunnar@aptoma.com"
+                }
+            ],
+            "description": "Twig extension to work with Markdown content",
+            "keywords": [
+                "markdown",
+                "twig"
+            ],
+            "time": "2017-06-23T14:35:41+00:00"
+        },
         {
             "name": "composer/ca-bundle",
             "version": "1.0.8",
@@ -841,128 +898,6 @@
             "time": "2017-09-18T06:50:20+00:00"
         },
         {
-            "name": "egeloen/ckeditor-bundle",
-            "version": "6.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/egeloen/IvoryCKEditorBundle.git",
-                "reference": "9c9926918d3ae4b4d89ca2db578766ab9829ee7a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/egeloen/IvoryCKEditorBundle/zipball/9c9926918d3ae4b4d89ca2db578766ab9829ee7a",
-                "reference": "9c9926918d3ae4b4d89ca2db578766ab9829ee7a",
-                "shasum": ""
-            },
-            "require": {
-                "egeloen/json-builder": "^2.0|^3.0",
-                "php": "^5.6|^7.0",
-                "symfony/dependency-injection": "^2.7|^3.0",
-                "symfony/form": "^2.7|^3.0",
-                "symfony/framework-bundle": "^2.7|^3.0"
-            },
-            "require-dev": {
-                "composer/composer": "^1.0",
-                "friendsofphp/php-cs-fixer": "^2.0",
-                "phpunit/phpunit": "^5.0|^6.0",
-                "sensio/distribution-bundle": "^3.0.12|^4.0|^5.0",
-                "symfony/asset": "^2.7|^3.0",
-                "symfony/console": "^2.7|^3.0",
-                "symfony/phpunit-bridge": "^2.7|^3.0",
-                "symfony/templating": "^2.7|^3.0",
-                "symfony/twig-bridge": "^2.7|^3.0",
-                "symfony/yaml": "^2.7|^3.0",
-                "twig/twig": "^1.12"
-            },
-            "suggest": {
-                "egeloen/form-extra-bundle": "Allows to load CKEditor asynchronously",
-                "sensio/distribution-bundle": "Allows to install CKEditor via a script handler",
-                "symfony/asset": "Allows to rewrite/version assets",
-                "symfony/templating": "Allows to use PHP templates",
-                "symfony/twig-bridge": "Allows to use Twig templates",
-                "twig/twig": "Allows to use Twig templates"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "6.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Ivory\\CKEditorBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Eric GELOEN",
-                    "email": "geloen.eric@gmail.com"
-                }
-            ],
-            "description": "Provides a CKEditor integration for your Symfony2 Project.",
-            "keywords": [
-                "CKEditor"
-            ],
-            "time": "2017-08-18T08:19:45+00:00"
-        },
-        {
-            "name": "egeloen/json-builder",
-            "version": "3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/egeloen/ivory-json-builder.git",
-                "reference": "3e70bc681891d8aca88dd72164caea659739f284"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/egeloen/ivory-json-builder/zipball/3e70bc681891d8aca88dd72164caea659739f284",
-                "reference": "3e70bc681891d8aca88dd72164caea659739f284",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "^5.6|^7.0",
-                "symfony/property-access": "^2.7|^3.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.0",
-                "phpunit/phpunit": "^5.0",
-                "symfony/phpunit-bridge": "^2.7|^3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Ivory\\JsonBuilder\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Eric GELOEN",
-                    "email": "geloen.eric@gmail.com"
-                }
-            ],
-            "description": "JSON builder with escaping control for PHP 5.6+",
-            "keywords": [
-                "Escape",
-                "builder",
-                "json"
-            ],
-            "time": "2017-02-27T20:18:54+00:00"
-        },
-        {
             "name": "fig/link-util",
             "version": "1.0.0",
             "source": {
@@ -1484,6 +1419,57 @@
                 "sql"
             ],
             "time": "2014-01-12T16:20:24+00:00"
+        },
+        {
+            "name": "michelf/php-markdown",
+            "version": "1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michelf/php-markdown.git",
+                "reference": "1f51cc520948f66cd2af8cbc45a5ee175e774220"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/1f51cc520948f66cd2af8cbc45a5ee175e774220",
+                "reference": "1f51cc520948f66cd2af8cbc45a5ee175e774220",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-lib": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Michelf": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Michel Fortin",
+                    "email": "michel.fortin@michelf.ca",
+                    "homepage": "https://michelf.ca/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "John Gruber",
+                    "homepage": "https://daringfireball.net/"
+                }
+            ],
+            "description": "PHP Markdown",
+            "homepage": "https://michelf.ca/projects/php-markdown/",
+            "keywords": [
+                "markdown"
+            ],
+            "time": "2016-10-29T18:58:20+00:00"
         },
         {
             "name": "monolog/monolog",
