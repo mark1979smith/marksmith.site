@@ -1,3 +1,8 @@
+pages:
+    resource: "@PagesBundle/Controller/"
+    type:     annotation
+    prefix:   /admin/page-manager
+
 signin:
     resource: "@SigninBundle/Controller/"
     type:     annotation

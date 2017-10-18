@@ -30,7 +30,7 @@ class ArticleController extends Controller
         /** @var \AppBundle\Utils\Api\Redis $api */
         $api = $this->get('app.api.redis');
 
-        /** @var \AppBundle\Utils\Api\Mysql $api */
+        /** @var \AppBundle\Utils\Api\Mysql $mysqlApi */
         $mysqlApi = $this->get('app.api.mysql');
 
         $user = new User();

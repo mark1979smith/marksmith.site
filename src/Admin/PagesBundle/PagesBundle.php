@@ -1,0 +1,9 @@
+<?php
+
+namespace Admin\PagesBundle;
+
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class PagesBundle extends Bundle
+{
+}
