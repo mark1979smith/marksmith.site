@@ -1,3 +1,8 @@
+admin_images:
+    resource: "@ImagesBundle/Controller/"
+    type:     annotation
+    prefix:   /admin/image-manager
+
 pages:
     resource: "@PagesBundle/Controller/"
     type:     annotation

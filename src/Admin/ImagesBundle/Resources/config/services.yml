@@ -1,0 +1,9 @@
+services:
+#    admin_images.example:
+#        class: Admin\ImagesBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    Admin\ImagesBundle\Controller\:
+        resource: '../../../../../src/Admin/ImagesBundle/Controller'
+        public: true
+        tags: ['controller.service_arguments']
