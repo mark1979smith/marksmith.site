@@ -54,11 +54,10 @@ class Google implements AuthInterface
      */
     public function __construct(
         Router $router,
-        string $adminAuthMethod = '',
-        string $adminAuthValue = '',
-        string $clientSecretFileName = ''
+        string $adminAuthMethod,
+        string $adminAuthValue,
+        string $clientSecretFileName
     ) {
-
         $this->setClientSecretFileName(basename($clientSecretFileName))
             ->setAdminAuthMethod($adminAuthMethod)
             ->setAdminAuthValue($adminAuthValue);
