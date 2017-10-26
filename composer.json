@@ -7,7 +7,9 @@
         "psr-4": {
             "AppBundle\\": "src/AppBundle",
             "SigninBundle\\": "src/SigninBundle",
-            "Admin\\PagesBundle\\": "src/Admin/PagesBundle"
+            "Admin\\": "src/Admin",
+            "Admin\\PagesBundle\\": "src/Admin/PagesBundle",
+            "Admin\\ImagesBundle\\": "src/Admin/ImagesBundle"
         },
         "classmap": [
             "app/AppKernel.php",
