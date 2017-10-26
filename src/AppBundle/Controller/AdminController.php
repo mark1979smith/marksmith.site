@@ -8,15 +8,10 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Article;
-use AppBundle\Entity\ArticleHistory;
-use AppBundle\Utils\User;
+use Admin\AdminController as AdminControllerInterface;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -24,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @package AppBundle\Controller
  */
-class AdminController extends Controller
+class AdminController extends Controller implements AdminControllerInterface
 {
     /**
      * @Route("/admin", name="admin-home")
@@ -35,21 +30,7 @@ class AdminController extends Controller
      */
     public function indexAction(Request $request, LoggerInterface $logger)
     {
-        /** @var \AppBundle\Utils\Api\Redis $api */
-        $api = $this->get('app.api.redis');
-
-        $user = new User();
-        $userData = $user->isLoggedIn($request, $api, $logger);
-
-        if (!empty($userData) && $userData['result'] && $userData['contents']->admin === true) {
-            return $this->render('admin/index.html.twig', [
-                'logged_in_data' => $userData,
-                'logged_in_status' => $userData['result'],
-                'is_admin' => $userData['contents']->admin
-             ]);
-        } else {
-            return $this->redirectToRoute('homepage');
-        }
+        return $this->render('admin/index.html.twig');
     }
 
 }

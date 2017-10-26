@@ -2,9 +2,9 @@
 
 namespace Admin\PagesBundle\Controller;
 
+use Admin\AdminController;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\ArticleHistory;
-use AppBundle\Utils\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends Controller
+class DefaultController extends Controller implements AdminController
 {
     /**
      * @Route("", name="page-manager")
@@ -24,29 +24,14 @@ class DefaultController extends Controller
      */
     public function pagesListAction(Request $request, LoggerInterface $logger)
     {
-        /** @var \AppBundle\Utils\Api\Redis $redisApi */
-        $redisApi = $this->get('app.api.redis');
-
         /** @var \AppBundle\Utils\Api\Mysql $api */
         $mysqlApi = $this->get('app.api.mysql');
+        $status = $mysqlApi->read(Article::class);
+        $results = unserialize(base64_decode($status['results']));
 
-
-        $user = new User();
-        $userData = $user->isLoggedIn($request, $redisApi, $logger);
-
-        if (!empty($userData) && $userData['result'] && $userData['contents']->admin === true) {
-            $status = $mysqlApi->read(Article::class);
-            $results = unserialize(base64_decode($status['results']));
-
-            return $this->render('PagesBundle:Default:index.html.twig', [
-                'logged_in_data' => $userData,
-                'logged_in_status' => $userData['result'],
-                'is_admin' => $userData['contents']->admin,
-                'results' => $results
-            ]);
-        } else {
-            return $this->redirectToRoute('homepage');
-        }
+        return $this->render('PagesBundle:Default:index.html.twig', [
+            'results' => $results
+        ]);
     }
 
     /**
@@ -58,14 +43,8 @@ class DefaultController extends Controller
      */
     public function pagesCreateAction(Request $request, LoggerInterface $logger)
     {
-        /** @var \AppBundle\Utils\Api\Redis $redisApi */
-        $redisApi = $this->get('app.api.redis');
-
         /** @var \AppBundle\Utils\Api\Mysql $api */
         $mysqlApi = $this->get('app.api.mysql');
-
-        $user = new User();
-        $userData = $user->isLoggedIn($request, $redisApi, $logger);
 
         $article = new Article();
 
@@ -91,16 +70,9 @@ class DefaultController extends Controller
             return $this->redirectToRoute('page-manager');
         }
 
-        if (!empty($userData) && $userData['result'] && $userData['contents']->admin === true) {
             return $this->render('PagesBundle:Default:create.html.twig', [
-                'logged_in_data' => $userData,
-                'logged_in_status' => $userData['result'],
-                'is_admin' => $userData['contents']->admin,
                 'form' => $form->createView()
             ]);
-        } else {
-            return $this->redirectToRoute('homepage');
-        }
     }
 
     /**
@@ -113,14 +85,8 @@ class DefaultController extends Controller
      */
     public function pagesEditAction(Request $request, LoggerInterface $logger, $id)
     {
-        /** @var \AppBundle\Utils\Api\Redis $redisApi */
-        $redisApi = $this->get('app.api.redis');
-
         /** @var \AppBundle\Utils\Api\Mysql $mysqlApi */
         $mysqlApi = $this->get('app.api.mysql');
-
-        $user = new User();
-        $userData = $user->isLoggedIn($request, $redisApi, $logger);
 
         $article = new Article();
         $article->setId($id);
@@ -158,16 +124,9 @@ class DefaultController extends Controller
             return $this->redirectToRoute('page-manager');
         }
 
-        if (!empty($userData) && $userData['result'] && $userData['contents']->admin === true) {
             return $this->render('PagesBundle:Default:create.html.twig', [
-                'logged_in_data' => $userData,
-                'logged_in_status' => $userData['result'],
-                'is_admin' => $userData['contents']->admin,
                 'form' => $form->createView()
             ]);
-        } else {
-            return $this->redirectToRoute('homepage');
-        }
     }
 
 }

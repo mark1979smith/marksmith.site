@@ -4,7 +4,6 @@ parameters:
     signin.google.admin_auth_method: 'domain'
     signin.google.admin_auth_value: 'marksmith.email'
     signin.google.client_secret: 'client_secret.json'
-    #parameter_name: value
 
 services:
     # default configuration for services in *this* file
@@ -31,6 +30,15 @@ services:
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
         exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
+
+    Admin\:
+        resource: '../../src/Admin/*'
+        public: true
+        arguments: ['@service_container', '@request_stack', '@logger']
+
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/Admin/{Entity,Repository,Tests}'
 
     # controllers are imported separately to make sure they're public
     # and have a tag that allows actions to type-hint services

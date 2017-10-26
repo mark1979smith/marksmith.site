@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Article;
-use AppBundle\Utils\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -25,22 +24,8 @@ class ArticleController extends Controller
     public function indexAction(Request $request, LoggerInterface $logger): Response
     {
         $data = [];
-        $data['logged_in_status'] = false;
-
-        /** @var \AppBundle\Utils\Api\Redis $api */
-        $api = $this->get('app.api.redis');
-
         /** @var \AppBundle\Utils\Api\Mysql $mysqlApi */
         $mysqlApi = $this->get('app.api.mysql');
-
-        $user = new User();
-        $userData = $user->isLoggedIn($request, $api, $logger);
-
-        if (!empty($userData) && $userData['result']) {
-            $data['logged_in_data'] = $userData;
-            $data['logged_in_status'] = $userData['result'];
-            $data['is_admin'] = $userData['contents']->admin;
-        }
 
         $status = $mysqlApi->read(Article::class);
         $results = unserialize(base64_decode($status['results']));
@@ -71,22 +56,9 @@ class ArticleController extends Controller
     public function viewArticleAction(Request $request, LoggerInterface $logger, string $slug): Response
     {
         $data = [];
-        $data['logged_in_status'] = false;
-
-        /** @var \AppBundle\Utils\Api\Redis $api */
-        $api = $this->get('app.api.redis');
 
         /** @var \AppBundle\Utils\Api\Mysql $api */
         $mysqlApi = $this->get('app.api.mysql');
-
-        $user = new User();
-        $userData = $user->isLoggedIn($request, $api, $logger);
-
-        if (!empty($userData) && $userData['result']) {
-            $data['logged_in_data'] = $userData;
-            $data['logged_in_status'] = $userData['result'];
-            $data['is_admin'] = $userData['contents']->admin;
-        }
 
         $article = new Article();
         $article->setArticleSlug($slug);

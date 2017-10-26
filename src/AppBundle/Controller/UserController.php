@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use SigninBundle\Resources\GenerateCacheKey;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
@@ -20,6 +21,9 @@ class UserController extends Controller
     {
         /** @var \SigninBundle\Model\Auth\Google $googleClient */
         $googleClient = $this->get('signin.google');
+        if (!strlen($googleClient->getClientSecretFileName())) {
+            throw new Exception('getClientSecretFileName() not provided');
+        }
         $googleClient->setClientSecret(
             $this->container->get('kernel')->locateResource(
                 '@SigninBundle/Resources/keys/' . $googleClient->getClientSecretFileName()
