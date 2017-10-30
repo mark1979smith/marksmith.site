@@ -41,8 +41,6 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
-        redis: '@AppBundle\Utils\Api\Redis'
-        user: '@AppBundle\Utils\User'
         logger: '@logger'
 
 # Doctrine Configuration
