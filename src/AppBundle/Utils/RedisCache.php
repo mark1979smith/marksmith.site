@@ -41,12 +41,12 @@ class RedisCache
             $redisConnection, // the object that stores a valid connection to your Redis system
 
             // the string prefixed to the keys of the items stored in this cache
-            $namespace = 'cache-',
+            'cache-',
 
             // the default lifetime (in seconds) for cache items that do not define their
             // own lifetime, with a value 0 causing items to be stored indefinitely (i.e.
             // until RedisAdapter::clear() is invoked or the server(s) are purged)
-            $defaultLifetime = 86400
+            86400
         );
 
         return $cache;
