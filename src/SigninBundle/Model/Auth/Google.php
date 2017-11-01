@@ -132,10 +132,9 @@ class Google implements AuthInterface
                     $redisCacheKey = $this->createCacheKey($request, $this->sessId, $logger);
 
                     if (!$this->getApi()->read($redisCacheKey)['result']) {
-                        $this->getApi()->create(
-                            (array)$googleUserData->toSimpleObject() +
-                            ['admin' => $this->isSiteAdministrator($googleUserData)]
-                        );
+                        $userData = (array)$googleUserData->toSimpleObject() +
+                            ['admin' => $this->isSiteAdministrator($googleUserData)];
+                        $this->getApi()->create($userData);
                     }
                 }
             }
