@@ -27,10 +27,11 @@ class UserData implements EventSubscriberInterface
     protected $logger;
 
     /**
-     * IsAdmin constructor.
+     * UserData constructor.
      *
-     * @param \Symfony\Component\HttpFoundation\RequestStack $request
-     * @param \Psr\Log\LoggerInterface                       $logger
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \Symfony\Component\HttpFoundation\RequestStack            $request
+     * @param \Psr\Log\LoggerInterface                                  $logger
      */
     public function __construct(ContainerInterface $container, RequestStack $request, LoggerInterface $logger)
     {
@@ -38,7 +39,6 @@ class UserData implements EventSubscriberInterface
         $this->requestStack = $request;
         $this->logger = $logger;
 
-//        $this->tokens = $tokens;
     }
 
     /**
