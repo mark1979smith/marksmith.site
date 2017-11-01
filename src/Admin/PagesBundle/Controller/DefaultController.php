@@ -8,6 +8,7 @@ use AppBundle\Entity\ArticleHistory;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +18,8 @@ class DefaultController extends Controller implements AdminControllerInterface
 {
     /**
      * @Route("", name="page-manager")
+     * @Method({"GET"})
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Psr\Log\LoggerInterface                  $logger
      *
