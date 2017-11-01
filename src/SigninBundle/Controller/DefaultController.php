@@ -2,11 +2,10 @@
 
 namespace SigninBundle\Controller;
 
-use Psr\Log\LoggerInterface;
 use SigninBundle\Resources\GenerateCacheKey;
-use AppBundle\Utils\RedisCache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
