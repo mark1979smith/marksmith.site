@@ -12,6 +12,7 @@ class DefaultController extends Controller implements AdminControllerInterface
 {
     /**
      * @Route("/", name="image-manager")
+     * @Method({"GET"})
      */
     public function indexAction(Request $request, LoggerInterface $logger)
     {

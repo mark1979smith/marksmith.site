@@ -23,6 +23,8 @@ class AdminController extends Controller implements AdminControllerInterface
 {
     /**
      * @Route("/admin", name="admin-home")
+     * @Method({"GET"})
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Psr\Log\LoggerInterface                  $logger
      *

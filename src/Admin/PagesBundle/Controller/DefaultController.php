@@ -33,12 +33,14 @@ class DefaultController extends Controller implements AdminControllerInterface
         $results = unserialize(base64_decode($status['results']));
 
         return $this->render('PagesBundle:Default:index.html.twig', [
-            'results' => $results
+            'results' => $results,
         ]);
     }
 
     /**
      * @Route("/create", name="page-manager-create")
+     * @Method({"GET", "POST"})
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Psr\Log\LoggerInterface                  $logger
      *
@@ -73,16 +75,18 @@ class DefaultController extends Controller implements AdminControllerInterface
             return $this->redirectToRoute('page-manager');
         }
 
-            return $this->render('PagesBundle:Default:create.html.twig', [
-                'form' => $form->createView()
-            ]);
+        return $this->render('PagesBundle:Default:create.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
      * @Route("/edit/{id}", name="page-manager-edit")
+     * @Method({"GET", "POST"})
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Psr\Log\LoggerInterface                  $logger
-     * @param int $id
+     * @param int                                       $id
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
@@ -127,9 +131,9 @@ class DefaultController extends Controller implements AdminControllerInterface
             return $this->redirectToRoute('page-manager');
         }
 
-            return $this->render('PagesBundle:Default:create.html.twig', [
-                'form' => $form->createView()
-            ]);
+        return $this->render('PagesBundle:Default:create.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
 }

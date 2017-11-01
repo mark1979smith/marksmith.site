@@ -20,6 +20,7 @@ class DefaultController extends Controller
      * @param string                                    $originator
      *
      * @Route("/callback/{originator}", name="signin-callback", requirements={"originator": "[g]{1}"})
+     * @Method({"GET"})
      *
      * @throws \Exception
      *
