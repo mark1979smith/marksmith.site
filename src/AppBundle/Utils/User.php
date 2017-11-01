@@ -40,7 +40,6 @@ class User
 
         $this->setCacheAdapter($api);
 
-        $cacheToken = null;
         if ($request->cookies->has('uuid') === true) {
             $logger->debug('Cookie UUID is set');
             $this->setGeneratedCacheKey(self::createCacheKey($request, $request->cookies->get('uuid'), $logger));
