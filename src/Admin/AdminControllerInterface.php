@@ -8,7 +8,7 @@
 
 namespace Admin;
 
-interface AdminController
+interface AdminControllerInterface
 {
 
 }

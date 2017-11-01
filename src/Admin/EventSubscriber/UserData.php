@@ -8,7 +8,7 @@
 
 namespace Admin\EventSubscriber;
 
-use Admin\AdminController;
+use Admin\AdminControllerInterface;
 use AppBundle\Utils\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -77,7 +77,7 @@ class UserData implements EventSubscriberInterface
          * If controller implements AdminController and user is not logged in
          * or is not admin, then throw exception
          */
-        if ($event->getController()[0] instanceof AdminController) {
+        if ($event->getController()[0] instanceof AdminControllerInterface) {
             if (!
                 (!empty($userData) &&
                 $userData['result'] &&

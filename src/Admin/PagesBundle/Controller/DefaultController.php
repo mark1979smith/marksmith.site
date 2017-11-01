@@ -2,7 +2,7 @@
 
 namespace Admin\PagesBundle\Controller;
 
-use Admin\AdminController;
+use Admin\AdminControllerInterface;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\ArticleHistory;
 use Psr\Log\LoggerInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends Controller implements AdminController
+class DefaultController extends Controller implements AdminControllerInterface
 {
     /**
      * @Route("", name="page-manager")

@@ -8,7 +8,7 @@
 
 namespace AppBundle\Controller;
 
-use Admin\AdminController as AdminControllerInterface;
+use Admin\AdminControllerInterface;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
