@@ -12,11 +12,25 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller implements AdminControllerInterface
 {
     /**
-     * @Route("/", name="image-manager")
+     * @Route("", name="image-manager")
      * @Method({"GET"})
      */
     public function indexAction(Request $request, LoggerInterface $logger)
     {
         return $this->render('ImagesBundle:Default:index.html.twig');
+    }
+
+    /**
+     * @Route("/create", name="image-manager-create")
+     * @Method({"GET"})
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Psr\Log\LoggerInterface                  $logger
+     */
+    public function createAction(Request $request, LoggerInterface $logger)
+    {
+        return $this->render('ImagesBundle:Default:create.html.twig', [
+
+        ]);
     }
 }

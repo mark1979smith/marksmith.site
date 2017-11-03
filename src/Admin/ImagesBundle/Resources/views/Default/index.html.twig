@@ -1,1 +1,6 @@
-Hello World2!
+{% extends 'ImagesBundle:Default:layout.html.twig' %}
+
+{% block body %}
+<h3 class="pull-right"><a href="{{ path('image-manager-create') }}">Create New Image</a></h3>
+
+{% endblock %}
