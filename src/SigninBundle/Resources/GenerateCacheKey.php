@@ -32,6 +32,7 @@ trait GenerateCacheKey
                     'HTTP_PRAGMA',
                     'HTTP_CACHE_CONTROL',
                     'HTTP_REFERER',
+                    'HTTP_ORIGIN',
                 ]);
         }, ARRAY_FILTER_USE_BOTH);
 
