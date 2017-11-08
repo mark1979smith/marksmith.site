@@ -31,14 +31,10 @@ services:
         # but if a service is unused, it's removed anyway
         exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
 
-    Admin\:
-        resource: '../../src/Admin/*'
+    Admin\EventSubscriber\:
+        resource: '../../src/Admin/EventSubscriber/*'
         public: true
-        arguments: ['@service_container', '@request_stack', '@logger']
-
-        # you can exclude directories or files
-        # but if a service is unused, it's removed anyway
-        exclude: '../../src/Admin/{Entity,Repository,Tests}'
+        arguments: ['@twig', '@request_stack', '@logger', '@app.api.redis']
 
     # controllers are imported separately to make sure they're public
     # and have a tag that allows actions to type-hint services
@@ -47,16 +43,10 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    # custom service for api variants
     app.api.redis:
         class: AppBundle\Utils\Api\Redis
         public: true
     app.api.mysql:
         class: AppBundle\Utils\Api\Mysql
         public: true
-
-
-
-    # add more services, or override services that need manual wiring
-    # AppBundle\Service\ExampleService:
-    #     arguments:
-    #         $someArgument: 'some_value'

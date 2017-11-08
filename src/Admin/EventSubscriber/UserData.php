@@ -9,9 +9,9 @@
 namespace Admin\EventSubscriber;
 
 use Admin\AdminControllerInterface;
+use AppBundle\Utils\Api\Redis;
 use AppBundle\Utils\User;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
@@ -20,25 +20,35 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class UserData implements EventSubscriberInterface
 {
-    protected $container;
+    /** @var \Twig_Environment */
+    protected $twig;
 
+    /** @var \AppBundle\Utils\Api\Redis */
+    protected $api;
+
+    /** @var \Symfony\Component\HttpFoundation\RequestStack */
     protected $requestStack;
 
+    /** @var \Psr\Log\LoggerInterface */
     protected $logger;
 
     /**
      * UserData constructor.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \Symfony\Component\HttpFoundation\RequestStack            $request
-     * @param \Psr\Log\LoggerInterface                                  $logger
+     * @param \Twig_Environment                              $twig
+     * @param \Symfony\Component\HttpFoundation\RequestStack $request
+     * @param \Psr\Log\LoggerInterface                       $logger
+     * @param \AppBundle\Utils\Api\Redis                     $api
      */
-    public function __construct(ContainerInterface $container, RequestStack $request, LoggerInterface $logger)
+    public function __construct(\Twig_Environment $twig, RequestStack $request, LoggerInterface $logger, Redis $api)
     {
-        $this->container = $container;
-        $this->requestStack = $request;
-        $this->logger = $logger;
+        $this->twig = $twig;
 
+        $this->api = $api;
+
+        $this->requestStack = $request;
+
+        $this->logger = $logger;
     }
 
     /**
@@ -59,15 +69,11 @@ class UserData implements EventSubscriberInterface
             return;
         }
 
-
-        /** @var \AppBundle\Utils\Api\Redis $api */
-        $api = $this->container->get('app.api.redis');
-
         $user = new User();
-        $userData = $user->isLoggedIn($this->requestStack->getCurrentRequest(), $api, $this->logger);
+        $userData = $user->isLoggedIn($this->requestStack->getCurrentRequest(), $this->api, $this->logger);
 
         /** @var \Twig_Environment $twig */
-        $twig = $this->container->get('twig');
+        $twig = $this->twig;
         $twig->addGlobal('logged_in_data', $userData);
         $twig->addGlobal('logged_in_status', (isset($userData['result']) ? $userData['result'] : []));
         $twig->addGlobal('is_admin', (isset($userData['contents']) && $userData['contents']->admin));
@@ -79,10 +85,10 @@ class UserData implements EventSubscriberInterface
          */
         if ($event->getController()[0] instanceof AdminControllerInterface) {
             if (!
-                (!empty($userData) &&
+            (!empty($userData) &&
                 $userData['result'] &&
                 $userData['contents']->admin === true
-                )
+            )
             ) {
                 throw new AccessDeniedException('Getta outta here');
             }
