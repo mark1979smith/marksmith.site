@@ -9,11 +9,9 @@
 namespace AppBundle\Controller;
 
 use Admin\AdminControllerInterface;
-use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class AdminController
@@ -26,12 +24,9 @@ class AdminController extends Controller implements AdminControllerInterface
      * @Route("/admin", name="admin-home")
      * @Method({"GET"})
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Psr\Log\LoggerInterface                  $logger
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request, LoggerInterface $logger)
+    public function indexAction()
     {
         return $this->render('admin/index.html.twig');
     }

@@ -4,13 +4,11 @@ namespace Admin\ImagesBundle\Controller;
 
 use Admin\AdminControllerInterface;
 use AppBundle\Entity\Image;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller implements AdminControllerInterface
 {
@@ -18,7 +16,7 @@ class DefaultController extends Controller implements AdminControllerInterface
      * @Route("", name="image-manager")
      * @Method({"GET"})
      */
-    public function indexAction(Request $request, LoggerInterface $logger)
+    public function indexAction()
     {
         return $this->render('ImagesBundle:Default:index.html.twig');
     }
@@ -26,11 +24,8 @@ class DefaultController extends Controller implements AdminControllerInterface
     /**
      * @Route("/create", name="image-manager-create")
      * @Method({"GET", "POST"})
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Psr\Log\LoggerInterface                  $logger
      */
-    public function createAction(Request $request, LoggerInterface $logger)
+    public function createAction()
     {
         /** @var \AppBundle\Utils\Api\Mysql $api */
         $mysqlApi = $this->get('app.api.mysql');

@@ -5,7 +5,6 @@ namespace Admin\PagesBundle\Controller;
 use Admin\AdminControllerInterface;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\ArticleHistory;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -20,12 +19,9 @@ class DefaultController extends Controller implements AdminControllerInterface
      * @Route("", name="page-manager")
      * @Method({"GET"})
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Psr\Log\LoggerInterface                  $logger
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function pagesListAction(Request $request, LoggerInterface $logger)
+    public function pagesListAction()
     {
         /** @var \AppBundle\Utils\Api\Mysql $api */
         $mysqlApi = $this->get('app.api.mysql');
@@ -42,11 +38,10 @@ class DefaultController extends Controller implements AdminControllerInterface
      * @Method({"GET", "POST"})
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Psr\Log\LoggerInterface                  $logger
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function pagesCreateAction(Request $request, LoggerInterface $logger)
+    public function pagesCreateAction(Request $request)
     {
         /** @var \AppBundle\Utils\Api\Mysql $api */
         $mysqlApi = $this->get('app.api.mysql');
@@ -85,12 +80,11 @@ class DefaultController extends Controller implements AdminControllerInterface
      * @Method({"GET", "POST"})
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Psr\Log\LoggerInterface                  $logger
      * @param int                                       $id
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function pagesEditAction(Request $request, LoggerInterface $logger, $id)
+    public function pagesEditAction(Request $request, $id)
     {
         /** @var \AppBundle\Utils\Api\Mysql $mysqlApi */
         $mysqlApi = $this->get('app.api.mysql');

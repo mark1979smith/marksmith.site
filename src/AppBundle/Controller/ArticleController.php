@@ -3,11 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Article;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ArticleController extends Controller
@@ -16,12 +14,9 @@ class ArticleController extends Controller
      * @Route("/", name="homepage")
      * @Method({"GET"})
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Psr\Log\LoggerInterface                  $logger
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request, LoggerInterface $logger): Response
+    public function indexAction(): Response
     {
         $data = [];
         /** @var \AppBundle\Utils\Api\Mysql $mysqlApi */
@@ -47,13 +42,11 @@ class ArticleController extends Controller
      * )
      * @Method({"GET"})
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Psr\Log\LoggerInterface                  $logger
      * @param string                                    $slug
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewArticleAction(Request $request, LoggerInterface $logger, string $slug): Response
+    public function viewArticleAction(string $slug): Response
     {
         $data = [];
 
