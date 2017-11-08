@@ -50,6 +50,12 @@ class DefaultController extends Controller implements AdminControllerInterface
 
             $fileName = date('YmdHis') . '--' . md5(uniqid()).'.'.$file->guessExtension();
 
+            $this->addFlash(
+                'success',
+                'Your image has been uploaded.'
+            );
+
+            return $this->redirectToRoute('image-manager');
         }
 
         return $this->render('ImagesBundle:Default:create.html.twig', [
