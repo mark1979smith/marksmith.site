@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller implements AdminControllerInterface
 {
@@ -24,8 +25,12 @@ class DefaultController extends Controller implements AdminControllerInterface
     /**
      * @Route("/create", name="image-manager-create")
      * @Method({"GET", "POST"})
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         /** @var \AppBundle\Utils\Api\Mysql $api */
         $mysqlApi = $this->get('app.api.mysql');
