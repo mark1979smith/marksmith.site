@@ -23,7 +23,8 @@ class ArticleController extends Controller
         $mysqlApi = $this->get('app.api.mysql');
 
         $status = $mysqlApi->read(Article::class);
-        $results = unserialize(base64_decode($status['results']));
+
+        $results = unserialize(base64_decode($status['result']));
         $data['articles'] = $results;
 
         // replace this example code with whatever you need
@@ -56,7 +57,7 @@ class ArticleController extends Controller
         $article = new Article();
         $article->setArticleSlug($slug);
         $status = $mysqlApi->read(Article::class, $article);
-        $results = unserialize(base64_decode($status['results']));
+        $results = unserialize(base64_decode($status['result']));
         if (isset($results[0])) {
             $data['article'] = $results[0];
             return $this->render('article/view-article.html.twig', $data);
