@@ -22,8 +22,13 @@ class DefaultController extends Controller implements AdminControllerInterface
     {
         $s3Api = new S3();
         $response = $s3Api->read();
-
-        return $this->render('ImagesBundle:Default:index.html.twig');
+        $data = [];
+        if (isset($response['result'])) {
+            $rawResult = unserialize($response['result']);
+            $data['images'] = $rawResult['Contents'];
+            $data['endpoint_url'] = substr($rawResult['@metadata']['effectiveUri'], 0, strpos($rawResult['@metadata']['effectiveUri'], '?'));
+        }
+        return $this->render('ImagesBundle:Default:index.html.twig', $data);
     }
 
     /**
