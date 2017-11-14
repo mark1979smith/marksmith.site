@@ -20,7 +20,10 @@ class Api
     {
         $ch = curl_init();
 
-        $options = ['storage' => $this->getStorageClass(), 'what' => $this->getWhat()];
+        $options = ['storage' => $this->getStorageClass()];
+        if ($this->getWhat()) {
+            $options['what'] = $this->getWhat();
+        }
         if ($this->getData()) {
             $options['data'] = base64_encode(serialize($this->getData()));
         }
@@ -28,7 +31,6 @@ class Api
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($ch, CURLOPT_URL, 'http://api/?'. http_build_query($options));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
         $response = curl_exec($ch);
         curl_close($ch);
 

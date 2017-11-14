@@ -4,6 +4,7 @@ namespace Admin\ImagesBundle\Controller;
 
 use Admin\AdminControllerInterface;
 use AppBundle\Entity\Image;
+use AppBundle\Utils\Api\S3;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -19,6 +20,9 @@ class DefaultController extends Controller implements AdminControllerInterface
      */
     public function indexAction()
     {
+        $s3Api = new S3();
+        $response = $s3Api->read();
+
         return $this->render('ImagesBundle:Default:index.html.twig');
     }
 
@@ -49,6 +53,10 @@ class DefaultController extends Controller implements AdminControllerInterface
             $file = $image->getFile();
 
             $fileName = date('YmdHis') . '--' . md5(uniqid()).'.'.$file->guessExtension();
+
+            $s3Api = new S3();
+            $s3Api->setWhat($fileName);
+            $s3Api->create(file_get_contents($file->getPathname()));
 
             $this->addFlash(
                 'success',
