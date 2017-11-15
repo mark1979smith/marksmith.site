@@ -63,6 +63,8 @@ class DefaultController extends Controller implements AdminControllerInterface
             $s3Api->setWhat($fileName);
             $s3Api->create(file_get_contents($file->getPathname()));
 
+            unlink($file->getPathname());
+
             $this->addFlash(
                 'success',
                 'Your image has been uploaded.'
