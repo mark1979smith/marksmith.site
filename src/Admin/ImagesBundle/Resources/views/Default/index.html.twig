@@ -1,9 +1,33 @@
 {% extends 'ImagesBundle:Default:layout.html.twig' %}
+{% block stylesheets %}
+    <style type="text/css">
+        .image--wrapper {
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100px;
+        }
 
+        .text-overflow {
+
+            overflow-x: scroll;
+            white-space: nowrap;
+        }
+    </style>
+{% endblock %}
 {% block body %}
-<h3 class="pull-right"><a href="{{ path('image-manager-create') }}">Create New Image</a></h3>
+            <h3 class="pull-right"><a href="{{ path('image-manager-create') }}">Create New Image</a></h3>
+        </div>
+    </div>
 
-    {% for obj in images %}
-        <img src="{{ endpoint_url }}/{{ obj.Key }}" />
-    {% endfor %}
+    <div class="row">
+        {% for obj in images %}
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="image--wrapper" style="background-image: url('{{ endpoint_url }}/{{ obj.Key }}');">
+
+                </div>
+                <p class="bg-info text-overflow">{{ endpoint_url }}/{{ obj.Key }}</p>
+            </div>
+
+        {% endfor %}
+    </div>
 {% endblock %}
