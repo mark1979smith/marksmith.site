@@ -26,7 +26,7 @@ class DefaultController extends Controller implements AdminControllerInterface
         /** @var \AppBundle\Utils\Api\Mysql $api */
         $mysqlApi = $this->get('app.api.mysql');
         $status = $mysqlApi->read(Article::class);
-        $results = unserialize(base64_decode($status['results']));
+        $results = unserialize(base64_decode($status['result']));
 
         return $this->render('PagesBundle:Default:index.html.twig', [
             'results' => $results,
@@ -92,7 +92,7 @@ class DefaultController extends Controller implements AdminControllerInterface
         $article = new Article();
         $article->setId($id);
         $status = $mysqlApi->read(Article::class, $article);
-        $article = unserialize(base64_decode($status['results']))[0];
+        $article = unserialize(base64_decode($status['result']))[0];
         $existingArticle = clone $article;
 
         $form = $this->createFormBuilder($article)
