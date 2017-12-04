@@ -49,10 +49,10 @@ class Article
     /**
      * @var \DateTime
      */
-    private $articleCreated = '';
+    private $articleCreated = null;
 
     /** @var \DateTime */
-    private $articleUpdated = '';
+    private $articleUpdated = null;
 
     /**
      * @return int
